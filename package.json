@@ -1,28 +1,28 @@
 {
-  "name": "mongo-scraper",
+  "name": "mongo_scraper",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "News app utilizing Cheerio and Mongoose.",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/christinaraj/mongo-scraper.git"
+    "url": "git+https://github.com/lisamariewatkins/mongoScraper.git"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Lisa Watkins",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/christinaraj/mongo-scraper/issues"
+    "url": "https://github.com/lisamariewatkins/mongoScraper/issues"
   },
-  "homepage": "https://github.com/christinaraj/mongo-scraper#readme",
+  "homepage": "https://github.com/lisamariewatkins/mongoScraper#readme",
   "dependencies": {
-    "body-parser": "^1.17.1",
+    "body-parser": "^1.15.2",
     "cheerio": "^0.22.0",
-    "express": "^4.15.2",
-    "mongoose": "^4.9.9",
-    "request": "^2.81.0"
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.5.9",
+    "morgan": "^1.7.0",
+    "request": "^2.74.0"
   }
 }
