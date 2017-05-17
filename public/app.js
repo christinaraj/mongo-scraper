@@ -1,51 +1,44 @@
-$.getJSON("/articles", function(data) {
-	for (var i = 0; i < data.length; i++) {
-		$("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + "<a href='" + data[i].link + "'>" + data[i].link + "</a></p>");
-	}
-});
-
-$(document).on("click", "#scrape", function() {
-	window.location = "http://localhost:3000/scrape";
-});
-
-$(document).on("click", "p", function() {
-	$("#notes").empty();
-	var thisId = $(this).attr("data-id");
+$(document).on('click', "#mainButton", function(){
+	console.log('I work');
 
 	$.ajax({
-		method: "GET",
-		url: "/articles/" + thisId
-	})
-	  .done(function(data) {
-	  	console.log(data);
-	  	$("#notes").append("<h2>" + data.title + "</h2>");
-	  	$("#notes").append("<input id='titleinput' name='title' />");
-	  	$("#notes").append("<textarea id='bodyinput' name='body' ></textarea>");
-	  	$("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
-
-	  	if (data.note) {
-	  		$("#titleinput").val(data.note.title);
-	  		$("#bodyinput").val(data.note.body);
-	  	}
-	  });
+		url: '/scrape'
+	}).done(function(){
+		$.getJSON('/articles', function(data){
+			var count = 1;
+			for (var i =0; i <data.length; i++){
+				$("#articles").append(
+					"<div class='individArticle' data-id=" + data[i]._id + "><img src='" + "'><h3>" + count + '. ' + data[i].title  +
+					"</h3><p>" + data[i].author + "</p>" +
+		        		"<p><a href='" + data[i].link + "' class='btn btn-primary' role='button'>Link</a> <a href='/articles/" + data[i]._id +"' class='btn btn-default' role='button' id='commentButton'>Comment</a></p>" +
+		      				"</div>")
+				count++;
+			}
+		});
+	});
 });
 
-$(document).on("click", "#savenote", function() {
-	var thisId = $(this).attr("data-id");
+$(document).on('click', "#commentButton", function(){
+	console.log('comment button working');
 
+  	var thisId = $(this).attr('data-id');
+
+	  // run a POST request to change the note, using what's entered in the inputs
 	$.ajax({
-		method: "POST",
-		url: "/articles/" + thisId,
-		data: {
-			title: $("#titleinput").val(),
-			body: $("bodyinput").val()
-		}
+	    method: "POST",
+	    url: "/articles/" + thisId,
+	    data: {
+	      author: $('#author').val(), // value taken from title input
+	      content: $('#content').val() // value taken from note textarea
+	    }
 	})
-	  .done(function(data) {
-	  	console.log(data);
-	  	$("#notes").empty();
-	  });
+	    // with that done
+	.done(function( data ) {
+	    // log the response
+	    console.log(data);
+    });
 
-  	$("#titleinput").val("");
-  	$("#bodyinput").val("");
+	  // Also, remove the values entered in the input and textarea for note entry
+	  $('#author').val("");
+	  $('#content').val("");
 });
